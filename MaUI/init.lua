@@ -1,45 +1,16 @@
 local E, L, V, P, G = unpack(ElvUI)
 local EP = E.Libs.EP
-
 local PI = E:GetModule("PluginInstaller")
 
 local _G = _G
-local next = next
 local unpack = unpack
 local format = format
-local strsub = strsub
-local tinsert = tinsert
+local tconcat = table.concat
 
 local ReloadUI = ReloadUI
-local PlaySound = PlaySound
-local CreateFrame = CreateFrame
-local UIFrameFadeOut = UIFrameFadeOut
-local ChangeChatColor = ChangeChatColor
-local FCF_DockFrame = FCF_DockFrame
-local FCF_SetWindowName = FCF_SetWindowName
-local FCF_StopDragging = FCF_StopDragging
-local FCF_UnDockFrame = FCF_UnDockFrame
-local FCF_OpenNewWindow = FCF_OpenNewWindow
-local FCF_ResetChatWindow = FCF_ResetChatWindow
-local FCF_ResetChatWindows = FCF_ResetChatWindows
-local FCF_SetChatWindowFontSize = FCF_SetChatWindowFontSize
-local FCF_SavePositionAndDimensions = FCF_SavePositionAndDimensions
-local SetChatColorNameByClass = SetChatColorNameByClass
-local ChatFrame_AddChannel = ChatFrame_AddChannel
 local ChatFrame_RemoveChannel = ChatFrame_RemoveChannel
-local ChatFrame_AddMessageGroup = ChatFrame_AddMessageGroup
-local ChatFrame_RemoveAllMessageGroups = ChatFrame_RemoveAllMessageGroups
-local VoiceTranscriptionFrame_UpdateEditBox = VoiceTranscriptionFrame_UpdateEditBox
-local VoiceTranscriptionFrame_UpdateVisibility = VoiceTranscriptionFrame_UpdateVisibility
-local VoiceTranscriptionFrame_UpdateVoiceTab = VoiceTranscriptionFrame_UpdateVoiceTab
-
-local CLASS, CONTINUE, PREVIOUS = CLASS, CONTINUE, PREVIOUS
-local VOICE, LOOT, GENERAL, TRADE = VOICE, LOOT, GENERAL, TRADE
-local GUILD_EVENT_LOG = GUILD_EVENT_LOG
 
 local GetAddOnMetadata = _G.C_AddOns and _G.C_AddOns.GetAddOnMetadata or _G.GetAddOnMetadata
-
-local S = E:GetModule("Skins")
 
 -- Addon Name and Namespace
 local addonName, _ = ...
@@ -53,9 +24,11 @@ MAUI.Icon = "|TInterface\\Addons\\MaUI\\media\\maui_icon.tga:14:14|t"
 MAUI.Logo = "Interface\\Addons\\MaUI\\media\\maui_logo.tga"
 MAUI.InstallerData = {}
 
+local mediaPath = "Interface\\Addons\\MaUI\\media\\"
+
 local elvuiInstallCompleted = nil
 local installerData = {}
-local mediaPath = "Interface\\Addons\\MaUI\\media\\"
+
 local conf = {
 	background = mediaPath .. "bg.tga",
 	statusbar = mediaPath .. "blank.tga",
@@ -121,8 +94,6 @@ local function ResetInstallerSkin()
 		local option = _G.PluginInstallFrame["Option" .. i]
 		if option.preview then option.preview = nil end
 	end
-
-	MAUI:Print("uuuuuuuuuuuuuuuuuuuuuuuuuuu")
 end
 
 function MAUI:Print(...)
@@ -134,7 +105,7 @@ local function SetupComplete()
 	E.db["MaUI"].version = MAUI.Version
 
 	ResetInstallerSkin()
-	--ReloadUI()
+	ReloadUI()
 end
 
 local function SetupSkip()
@@ -249,9 +220,6 @@ local function SetupPluginInstaller()
 	SetBGTexture(_G.PluginInstallFrame.side.mauiBG, _G.PluginInstallFrame.side, conf.background, { { r = 0, g = 0, b = 0, a = 0.2 }, { r = 0.44, g = 0.34, b = 0.34, a = 0.2 } })
 
 	_G.PluginInstallFrame.Status:SetStatusBarTexture(conf.statusbar)
-
-	MAUI:Print("yes")
-	hooksecurefunc(PI, "CloseInstall", ResetInstallerSkin)
 end
 
 local function Resize()
@@ -533,6 +501,98 @@ installerData = {
 	StepTitles = {},
 }
 
+local CREDITS = {
+	"|CFF00A3FFB|r|CFF00B4FFl|r|CFF00C6FFi|r|CFF00D8FFn|r|CFF00EAFFk|r|CFF00F6FFi|r|CFF00F6FFi|r - Programming & Author",
+	"TukUI & ElvUI Community",
+}
+local CREDITS_STRING = tconcat(CREDITS, "|n")
+
+local function InsertOptions()
+	E.Options.args.MaUI = {
+		order = 100,
+		type = "group",
+		name = MAUI.Icon .. " " .. MAUI.Name,
+		args = {
+			logo = {
+				type = "description",
+				name = "",
+				order = 1,
+				image = function()
+					return MAUI.Logo, 307, 154
+				end,
+			},
+			about = {
+				order = 2,
+				type = "group",
+				inline = true,
+				name = L["About"],
+				args = {
+					description1 = {
+						order = 1,
+						type = "description",
+						name = format("%s is a layout for ElvUI.", MAUI.Name),
+					},
+					spacer1 = {
+						order = 2,
+						type = "description",
+						name = "\n",
+					},
+					discord = {
+						order = 3,
+						type = "execute",
+						name = L["Discord"],
+						func = function()
+							E:StaticPopup_Show("MAUI_EDITBOX", nil, nil, "https://discord.gg/AE9XebMU49")
+						end,
+					},
+				},
+			},
+			install = {
+				order = 3,
+				type = "group",
+				inline = true,
+				name = L["Installation"],
+				args = {
+					description2 = {
+						order = 1,
+						type = "description",
+						name = "The installation guide should pop up automatically after you have completed the ElvUI installation. If you wish to re-run the installation process for this layout then please click the button below.",
+					},
+					spacer2 = {
+						order = 2,
+						type = "description",
+						name = "",
+					},
+					install = {
+						order = 3,
+						type = "execute",
+						name = "Install",
+						desc = "Run the installation process.",
+						func = function()
+							PI:Queue(installerData)
+							E:ToggleOptions()
+						end,
+					},
+				},
+			},
+			thankyou = {
+				order = 6,
+				type = "group",
+				inline = true,
+				name = L["Credits"],
+				args = {
+					desc = {
+						order = 1,
+						type = "description",
+						fontSize = "medium",
+						name = CREDITS_STRING,
+					},
+				},
+			},
+		},
+	}
+end
+
 function MAUI:Initialize()
 	E.db["MaUI"].install = nil
 	E.db["MaUI"].version = nil
@@ -557,7 +617,7 @@ function MAUI:Initialize()
 end
 
 local function CallbackInitialize()
-	EP:RegisterPlugin(addonName)
+	EP:RegisterPlugin(addonName, InsertOptions)
 
 	MAUI:Initialize()
 end
