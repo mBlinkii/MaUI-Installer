@@ -48,13 +48,13 @@ MAUI = E:NewModule(addonName, "AceHook-3.0", "AceEvent-3.0", "AceTimer-3.0")
 
 -- Settings
 MAUI.Version = GetAddOnMetadata(addonName, "Version")
-MAUI.Name = "|CFF29C0E3M|r|CFF5493FFa|r|CFF854FE3U|r|CFFA632E3I|r"
+MAUI.Name = "|CFFFFFFFFM|r|CFFFFFFFFa|r|CFF0094FEU|r|CFFFE01DCI|r"
 MAUI.Icon = "|TInterface\\Addons\\MaUI\\media\\maui_icon.tga:14:14|t"
 MAUI.Logo = "Interface\\Addons\\MaUI\\media\\maui_logo.tga"
 MAUI.InstallerData = {}
 
 local elvuiInstallCompleted = nil
-
+local installerData = {}
 local mediaPath = "Interface\\Addons\\MaUI\\media\\"
 local conf = {
 	background = mediaPath .. "bg.tga",
@@ -245,8 +245,8 @@ local function SetupPluginInstaller()
 		_G.PluginInstallFrame.mauiPreview:SetAllPoints(_G.PluginInstallFrame)
 	end
 
-	SetBGTexture(_G.PluginInstallFrame.mauiBG, _G.PluginInstallFrame, conf.background, { { r = 0.14, g = 0.04, b = 0.04, a = 0.2 }, { r = 0.44, g = 0.34, b = 0.34, a = 0.2 } })
-	SetBGTexture(_G.PluginInstallFrame.side.mauiBG, _G.PluginInstallFrame.side, conf.background, { { r = 0.14, g = 0.04, b = 0.04, a = 0.2 }, { r = 0.44, g = 0.34, b = 0.34, a = 0.2 } })
+	SetBGTexture(_G.PluginInstallFrame.mauiBG, _G.PluginInstallFrame, conf.background, { { r = 0, g = 0, b = 0, a = 0.2 }, { r = 0.44, g = 0.34, b = 0.34, a = 0.2 } })
+	SetBGTexture(_G.PluginInstallFrame.side.mauiBG, _G.PluginInstallFrame.side, conf.background, { { r = 0, g = 0, b = 0, a = 0.2 }, { r = 0.44, g = 0.34, b = 0.34, a = 0.2 } })
 
 	_G.PluginInstallFrame.Status:SetStatusBarTexture(conf.statusbar)
 
@@ -283,38 +283,171 @@ MAUI.InstallerData[1] = { --#F8D058, #39F64C
 }
 
 MAUI.InstallerData[2] = {
-	SubTitle = "SubTitle FI",
+	SubTitle = MAUI.Name .. " Layout Version",
+	StepTitle = "Layout Version",
 	tutorialImage = true,
 	descriptions = {
-		[1] = "Desc1 FIN",
-		[2] = "Desc2 1",
-		[3] = "Desc3 1",
-		[4] = "Desc4 1",
+		[1] = format("This is where you can choose between the different versions of the %s layout.", MAUI.Name),
+		[2] = format("%s |CFFF8D058v6.5|r offers a full ElvUI profile with optimized features for different roles and a custom dock bar", MAUI.Name),
+		[3] = format("%s |CFFF8D058v7|r continues to improve the user interface, offering enhanced features and a cleaner layout.", MAUI.Name),
 	},
 	options = {
 		[1] = {
-			text = "Option1 1",
+			text = MAUI.Name .. " |CFFF8D058v6.5|r",
+			preview = mediaPath .. "pic1.png",
+			func = function()
+				PI:SetPage(3, 2)
+			end,
+		},
+		[2] = {
+			text = MAUI.Name .. " |CFFF8D058v7|r",
+			preview = mediaPath .. "pic2.png",
+			func = function()
+				PI:SetPage(4, 2)
+			end,
+		},
+	},
+}
+
+MAUI.InstallerData[3] = {
+	SubTitle = MAUI.Name .. " |CFFF8D058v6.5|r",
+	StepTitle = "Layout v6.5",
+	tutorialImage = true,
+	descriptions = {
+		[1] = "The tank/DD layout offers health and resource displays as well as an aggro display.",
+		[2] = "The healer layout, on the other hand, offers clear group and raid frames as well as a clear.",
+	},
+	options = {
+		[1] = {
+			text = "Tank/ DD",
 			preview = mediaPath .. "pic1.png",
 			func = function()
 				print("HAHAHAHA")
 			end,
 		},
 		[2] = {
-			text = "Option2 1",
+			text = "Heal Left",
 			preview = mediaPath .. "pic2.png",
 			func = function()
 				print("HAHAHAHA")
 			end,
 		},
 		[3] = {
-			text = "Option2 1",
-			preview = mediaPath .. "pic3.png",
+			text = "Heal Center",
+			preview = mediaPath .. "pic2.png",
+			func = function()
+				print("HAHAHAHA")
+			end,
+		},
+	},
+}
+
+MAUI.InstallerData[4] = {
+	SubTitle = MAUI.Name .. " |CFFF8D058v7|r",
+	StepTitle = "Layout v7",
+	tutorialImage = true,
+	descriptions = {
+		[1] = "The tank/DD layout offers health and resource displays as well as an aggro display.",
+		[2] = "The healer layout, on the other hand, offers clear group and raid frames as well as a clear.",
+	},
+	options = {
+		[1] = {
+			text = "Tank/ DD",
+			preview = mediaPath .. "pic1.png",
+			func = function()
+				print("HAHAHAHA")
+			end,
+		},
+		[2] = {
+			text = "Heal",
+			preview = mediaPath .. "pic2.png",
+			func = function()
+				print("HAHAHAHA")
+			end,
+		},
+	},
+}
+
+MAUI.InstallerData[5] = {
+	SubTitle = "Addons",
+	tutorialImage = true,
+	descriptions = {
+		[1] = "These are the available profiles. Please click a button below to apply the profile to the AddOn.",
+	},
+	options = {
+		[1] = {
+			text = "Addon 1",
+			preview = mediaPath .. "pic1.png",
+			func = function()
+				print("HAHAHAHA")
+			end,
+		},
+		[2] = {
+			text = "Addon 2",
+			preview = mediaPath .. "pic2.png",
+			func = function()
+				print("HAHAHAHA")
+			end,
+		},
+		[3] = {
+			text = "Addon 2",
+			preview = mediaPath .. "pic2.png",
 			func = function()
 				print("HAHAHAHA")
 			end,
 		},
 		[4] = {
-			text = "Option2 1",
+			text = "Addon 2",
+			preview = mediaPath .. "pic2.png",
+			func = function()
+				print("HAHAHAHA")
+			end,
+		},
+	},
+}
+
+MAUI.InstallerData[6] = {
+	SubTitle = "Mythic Plus Stuff",
+	tutorialImage = true,
+	descriptions = {
+		[1] = "This is where you set up the Nameplate filters and Important Spells for Mythic plus dungeons.",
+		[2] = "Important NPCs are color highlighting to make them stand out from other NPCs. This color highlighting helps players to react quickly and efficiently to important NPCs.",
+		[3] = "Important Casts, frontal attacks, interrupts, and AoE attacks are clearly marked with color, text, and an icon. This visual difference allows players to react quickly and accurately to these important abilities by immediately recognizing which actions need to be prioritized to avoid damage or efficiently control the fight.",
+	},
+	options = {
+		[1] = {
+			text = "Nameplate Filters",
+			preview = mediaPath .. "pic1.png",
+			func = function()
+				print("HAHAHAHA")
+			end,
+		},
+		[2] = {
+			text = "Important Spells",
+			preview = mediaPath .. "pic2.png",
+			func = function()
+				print("HAHAHAHA")
+			end,
+		},
+		[3] = {
+			text = "Healthmarkers",
+			preview = mediaPath .. "pic2.png",
+			func = function()
+				print("HAHAHAHA")
+			end,
+		},
+	},
+}
+
+MAUI.InstallerData[7] = {
+	SubTitle = "Blizzard",
+	tutorialImage = true,
+	descriptions = {
+		[1] = "On Retail, you can now copy and import the Blizzard interface profile.",
+	},
+	options = {
+		[1] = {
+			text = "Blizzard",
 			preview = mediaPath .. "pic1.png",
 			func = function()
 				print("HAHAHAHA")
@@ -324,7 +457,7 @@ MAUI.InstallerData[2] = {
 }
 
 local discordLogo = format("|T%s%s:14:14|t", mediaPath, "discord_b")
-MAUI.InstallerData[3] = {
+MAUI.InstallerData[8] = {
 	SubTitle = "Installation Complete",
 	tutorialImage = true,
 	descriptions = { -- #39F64C
@@ -365,7 +498,7 @@ local function SetUpPage(page)
 			_G.PluginInstallFrame.tutorialImage:Hide()
 		end
 
-		_G.PluginInstallFrame.SubTitle:SetText(MAUI.InstallerData[1].SubTitle or "")
+		_G.PluginInstallFrame.SubTitle:SetText(MAUI.InstallerData[page].SubTitle or "")
 
 		local desc = MAUI.InstallerData[page].descriptions
 		if desc then
