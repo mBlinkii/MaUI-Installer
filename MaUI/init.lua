@@ -507,24 +507,6 @@ local CREDITS = {
 }
 local CREDITS_STRING = tconcat(CREDITS, "|n")
 
-local myTable = {
-	player = {
-		texture = texture,
-		color = color,
-	},
-	target = {
-		texture = texture,
-		color = color,
-	}
-}
-
-local function SetFrames()
-	local settings = myTable[framename]
-
-	frame:SetTexture(settings.texture)
-	... and so on
-end
-
 local function InsertOptions()
 	E.Options.args.MaUI = {
 		order = 100,
