@@ -14,13 +14,23 @@ local profiles = {
 	cosmetic = "!mMT!ndzWkimmmy4NPDWl7MD4bbNhSZRHLUMvl2TcTrrVSNDx7qCi(aibcbY)FYxcuanGSE759tTv(4aX2UPwbgMApznx4uxLpOPqQkYpDei12iQCKgKDENp3rbhlaPjNdPmphsLzLRohgJRSGzX)2itp4BbkjJgt7ceGS3MgZqnPTydAMjSyZI8FYFfnYly)FDa7C3t0kC441VXh)G)bQ)F)7NvZauwou38(7lcy81p",
 }
 
+local function validateString(_, value)
+	return value and not strmatch(value, "^[%s%p]-$")
+end
+local function Import(string)
+	if validateString(nil, string) then
+		local profileType = D:Decode(string)
+		local imported = profileType and D:ImportProfile(string)
+	end
+end
+
 function MAUI:ElvUIProfile(version)
 	if version == "tankdd" or version == "heal" or version == "healcenter" then
-		D:ImportProfile(profiles[version])
-		D:ImportProfile(profiles.nameplate)
+		Import(profiles[version])
+		Import(profiles.nameplate)
 		--D:ImportProfile(aurafilters)
-		D:ImportProfile(profiles.global)
-		D:ImportProfile(profiles.private)
+		Import(profiles.global)
+		Import(profiles.private)
 
 		local profileType, profileData = mMT:GetImportText(profiles.importantspells)
 		if profileType == "mMTImportantSpellsV2" then
@@ -28,10 +38,8 @@ function MAUI:ElvUIProfile(version)
 			mMT.Modules.ImportantSpells:Initialize()
 		end
 
-        profileType, profileData = mMT:GetImportText(profiles.cosmetic)
-        if profileType == "mMTCosmeticBras" then
-            E:CopyTable(E.db.mMT.cosmeticbars.bars, profileData)
-        end
+		profileType, profileData = mMT:GetImportText(profiles.cosmetic)
+		if profileType == "mMTCosmeticBras" then E:CopyTable(E.db.mMT.cosmeticbars.bars, profileData) end
 
 		E:SetupCVars()
 		E:SetupChat()
@@ -40,64 +48,56 @@ function MAUI:ElvUIProfile(version)
 		E.global.general.UIScale = 768 / 1440
 	end
 
-	if version == "nameplate" then
-		D:ImportProfile(profiles.nameplate)
-
-		E.db["nameplates"]["filters"]["MAUI - BAD AGGRO"]["triggers"]["enable"] = true
-		E.db["nameplates"]["filters"]["MAUI - CAST - CC"]["triggers"]["enable"] = true
-		E.db["nameplates"]["filters"]["MAUI - CAST - FRONTAL"]["triggers"]["enable"] = true
-		E.db["nameplates"]["filters"]["MAUI - CAST - KICK"]["triggers"]["enable"] = true
-		E.db["nameplates"]["filters"]["MAUI - FOCUS"]["triggers"]["enable"] = true
-		E.db["nameplates"]["filters"]["MAUI - HIGH HP"]["triggers"]["enable"] = true
-		E.db["nameplates"]["filters"]["MAUI - PRIO 1"]["triggers"]["enable"] = true
-		E.db["nameplates"]["filters"]["MAUI - PRIO 1 - NC"]["triggers"]["enable"] = true
-		E.db["nameplates"]["filters"]["MAUI - PRIO 2"]["triggers"]["enable"] = true
-		E.db["nameplates"]["filters"]["MAUI - PRIO 2 - NC"]["triggers"]["enable"] = true
-		E.db["nameplates"]["filters"]["MAUI - PRIO 3"]["triggers"]["enable"] = true
-		E.db["nameplates"]["filters"]["MAUI - PRIO 3 - NC"]["triggers"]["enable"] = true
-		E.db["nameplates"]["filters"]["MAUI - PRIO LOW"]["triggers"]["enable"] = true
-		E.db["nameplates"]["filters"]["MAUI - QUEST"]["triggers"]["enable"] = true
-		E.db["nameplates"]["filters"]["MAUI - SOFT TARGET"]["triggers"]["enable"] = true
-		E.db["nameplates"]["filters"]["MAUI - UNIT - NC"]["triggers"]["enable"] = true
-	end
+	if version == "nameplate" then Import(profiles.nameplate) end
 
 	if version == "npfilters" then
-		D:ImportProfile(profiles.npfilters)
+        for _, filterName in pairs({
+			"MAUI - HIGH HP",
+			"MAUI - PRIO 1",
+			"MAUI - PRIO 1 - NC",
+			"MAUI - PRIO 2",
+			"MAUI - PRIO 2 - NC",
+			"MAUI - PRIO 3",
+			"MAUI - PRIO 3 - NC",
+			"MAUI - PRIO LOW",
+		}) do
+			E.global["nameplates"]["filters"][filterName] = {}
+			E.NamePlates:StyleFilterCopyDefaults(E.global["nameplates"]["filters"][filterName])
+			E.db["nameplates"]["filters"][filterName] = { triggers = { enable = true } }
+		end
 
-		E.db["nameplates"]["filters"]["MAUI - HIGH HP"]["triggers"]["enable"] = true
-		E.db["nameplates"]["filters"]["MAUI - PRIO 1"]["triggers"]["enable"] = true
-		E.db["nameplates"]["filters"]["MAUI - PRIO 1 - NC"]["triggers"]["enable"] = true
-		E.db["nameplates"]["filters"]["MAUI - PRIO 2"]["triggers"]["enable"] = true
-		E.db["nameplates"]["filters"]["MAUI - PRIO 2 - NC"]["triggers"]["enable"] = true
-		E.db["nameplates"]["filters"]["MAUI - PRIO 3"]["triggers"]["enable"] = true
-		E.db["nameplates"]["filters"]["MAUI - PRIO 3 - NC"]["triggers"]["enable"] = true
-		E.db["nameplates"]["filters"]["MAUI - PRIO LOW"]["triggers"]["enable"] = true
+		Import(profiles.npfilters)
 	end
 
 	if version == "npimportantspells" then
-		D:ImportProfile(profiles.npimportantspells)
-
-		E.db["nameplates"]["filters"]["MAUI - CAST - CC"]["triggers"]["enable"] = true
-		E.db["nameplates"]["filters"]["MAUI - CAST - FRONTAL"]["triggers"]["enable"] = true
-		E.db["nameplates"]["filters"]["MAUI - CAST - KICK"]["triggers"]["enable"] = true
-		if not E.db.nameplates.units.ENEMY_NPC.power.text.enable then
-			E.db.nameplates.units.ENEMY_NPC.power.text.enable = true
-			E.db.nameplates.units.ENEMY_NPC.power.text.format = ""
+        for _, filterName in pairs({
+			"MAUI - CAST - CC",
+			"MAUI - CAST - FRONTAL",
+			"MAUI - CAST - KICK",
+		}) do
+			E.global["nameplates"]["filters"][filterName] = {}
+			E.NamePlates:StyleFilterCopyDefaults(E.global["nameplates"]["filters"][filterName])
+			E.db["nameplates"]["filters"][filterName] = { triggers = { enable = true } }
 		end
+
+        Import(profiles.npimportantspells)
 	end
 
-    if version == "importantspells" then
-		D:ImportProfile(profiles.npimportantspells)
-
-		E.db["nameplates"]["filters"]["MAUI - CAST - CC"]["triggers"]["enable"] = true
-		E.db["nameplates"]["filters"]["MAUI - CAST - FRONTAL"]["triggers"]["enable"] = true
-		E.db["nameplates"]["filters"]["MAUI - CAST - KICK"]["triggers"]["enable"] = true
-		if not E.db.nameplates.units.ENEMY_NPC.power.text.enable then
-			E.db.nameplates.units.ENEMY_NPC.power.text.enable = true
-			E.db.nameplates.units.ENEMY_NPC.power.text.format = ""
+	if version == "importantspells" then
+        for _, filterName in pairs({
+			"MAUI - CAST - CC",
+			"MAUI - CAST - FRONTAL",
+			"MAUI - CAST - KICK",
+		}) do
+			E.global["nameplates"]["filters"][filterName] = {}
+			E.NamePlates:StyleFilterCopyDefaults(E.global["nameplates"]["filters"][filterName])
+			E.db["nameplates"]["filters"][filterName] = { triggers = { enable = true } }
 		end
 
-        local profileType, profileData = mMT:GetImportText(profiles.importantspells)
+        Import(profiles.npimportantspells)
+
+		local profileType, profileData = mMT:GetImportText(profiles.importantspells)
+        MAUI:Print(profileType, profileData)
 		if profileType == "mMTImportantSpellsV2" then
 			E:CopyTable(E.db.mMT.importantspells.spells, profileData)
 			mMT.Modules.ImportantSpells:Initialize()
