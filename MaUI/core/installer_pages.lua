@@ -2,6 +2,11 @@ local E, L, V, P, G = unpack(ElvUI)
 
 local mediaPath = "Interface\\Addons\\MaUI\\media\\"
 
+local check = {
+	profile = false,
+	spells = false,
+}
+
 MAUI.InstallerData[1] = { --#F8D058, #39F64C
 	SubTitle = "Welcome to the installation for " .. MAUI.Name .. " - |CFFF8D058Version|r.: |CFF39F64C" .. MAUI.Version .. "|r for ElvUI.",
 	StepTitle = "Welcome",
@@ -17,9 +22,9 @@ MAUI.InstallerData[1] = { --#F8D058, #39F64C
 	options = {
 		[1] = {
 			text = "Skip Process",
-			func = function ()
-                MAUI:SetupSkip()
-            end,
+			func = function()
+				MAUI:SetupSkip()
+			end,
 		},
 	},
 }
@@ -37,21 +42,24 @@ MAUI.InstallerData[2] = {
 			text = "Tank/ DD",
 			preview = mediaPath .. "pic1.png",
 			func = function()
-				print("HAHAHAHA")
+				MAUI:ElvUIProfile("tankdd")
+				check.profile = true
 			end,
 		},
 		[2] = {
-			text = "Heal Left",
+			text = "Heal",
 			preview = mediaPath .. "pic2.png",
 			func = function()
-				print("HAHAHAHA")
+				MAUI:ElvUIProfile("heal")
+				check.profile = true
 			end,
 		},
 		[3] = {
 			text = "Heal Center",
 			preview = mediaPath .. "pic2.png",
 			func = function()
-				print("HAHAHAHA")
+				MAUI:ElvUIProfile("healcenter")
+				check.profile = true
 			end,
 		},
 	},
@@ -102,27 +110,43 @@ MAUI.InstallerData[4] = {
 		[1] = "This is where you set up the Nameplate filters and Important Spells for Mythic plus dungeons.",
 		[2] = "Important NPCs are color highlighting to make them stand out from other NPCs. This color highlighting helps players to react quickly and efficiently to important NPCs.",
 		[3] = "Important Casts, frontal attacks, interrupts, and AoE attacks are clearly marked with color, text, and an icon. This visual difference allows players to react quickly and accurately to these important abilities by immediately recognizing which actions need to be prioritized to avoid damage or efficiently control the fight.",
+		[4] = "This step is not necessary if you have just installed one of my profiles.",
 	},
 	options = {
 		[1] = {
-			text = "Nameplate Filters",
+			text = "NP Filters",
 			preview = mediaPath .. "pic1.png",
 			func = function()
-				print("HAHAHAHA")
+				if check.profile then
+					MAUI:Print("This step is not necessary, you have just installed one of my profiles.")
+				else
+					MAUI:ElvUIProfile("npfilters")
+				end
 			end,
 		},
 		[2] = {
 			text = "Important Spells",
 			preview = mediaPath .. "pic2.png",
 			func = function()
-				print("HAHAHAHA")
+				if check.profile then
+					MAUI:Print("This step is not necessary, you have just installed one of my profiles.")
+				else
+					MAUI:ElvUIProfile("importantspells")
+					check.spells = true
+				end
 			end,
 		},
 		[3] = {
-			text = "Healthmarkers",
-			preview = mediaPath .. "pic2.png",
+			text = "NP Important Spells",
+			preview = mediaPath .. "pic1.png",
 			func = function()
-				print("HAHAHAHA")
+				if check.profile then
+					MAUI:Print("This step is not necessary, you have just installed one of my profiles.")
+				elseif check.spells then
+					MAUI:Print("This step is not necessary, you have just installed Important Spells.")
+				else
+					MAUI:ElvUIProfile("npimportantspells")
+				end
 			end,
 		},
 	},
@@ -159,9 +183,9 @@ MAUI.InstallerData[6] = {
 	options = {
 		[1] = {
 			text = "Finished",
-			func = function ()
-                MAUI:SetupComplete()
-            end,
+			func = function()
+				MAUI:SetupComplete()
+			end,
 		},
 		[2] = {
 			text = discordLogo .. " Discord",
