@@ -40,7 +40,7 @@ MAUI.InstallerData[2] = {
 	options = {
 		[1] = {
 			text = "Tank/ DD",
-			preview = mediaPath .. "pic1.png",
+			preview = mediaPath .. "tankdd.png",
 			func = function()
 				MAUI:ElvUIProfile("tankdd")
 				check.profile = true
@@ -48,7 +48,7 @@ MAUI.InstallerData[2] = {
 		},
 		[2] = {
 			text = "Heal",
-			preview = mediaPath .. "pic2.png",
+			preview = mediaPath .. "heal.png",
 			func = function()
 				MAUI:ElvUIProfile("heal")
 				check.profile = true
@@ -56,7 +56,7 @@ MAUI.InstallerData[2] = {
 		},
 		[3] = {
 			text = "Heal Center",
-			preview = mediaPath .. "pic2.png",
+			preview = mediaPath .. "healcenter.png",
 			func = function()
 				MAUI:ElvUIProfile("healcenter")
 				check.profile = true
@@ -115,7 +115,7 @@ MAUI.InstallerData[4] = {
 	options = {
 		[1] = {
 			text = "NP Filters",
-			preview = mediaPath .. "pic1.png",
+			preview = mediaPath .. "npprio.png",
 			func = function()
 				if check.profile then
 					MAUI:Print("This step is not necessary, you have just installed one of my profiles.")
@@ -126,7 +126,7 @@ MAUI.InstallerData[4] = {
 		},
 		[2] = {
 			text = "Important Spells",
-			preview = mediaPath .. "pic2.png",
+			preview = mediaPath .. "spells.png",
 			func = function()
 				if check.profile then
 					MAUI:Print("This step is not necessary, you have just installed one of my profiles.")
@@ -138,7 +138,7 @@ MAUI.InstallerData[4] = {
 		},
 		[3] = {
 			text = "NP Important Spells",
-			preview = mediaPath .. "pic1.png",
+			preview = mediaPath .. "spells.png",
 			func = function()
 				if check.profile then
 					MAUI:Print("This step is not necessary, you have just installed one of my profiles.")
