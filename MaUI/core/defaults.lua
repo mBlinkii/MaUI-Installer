@@ -1,7 +1,8 @@
 local E, L, V, P, G = unpack(ElvUI)
 
 -- installation
-P.MaUI = {
+V.MaUI = {
     install = nil,
     version = nil,
+    elvuiskiped = false,
 }

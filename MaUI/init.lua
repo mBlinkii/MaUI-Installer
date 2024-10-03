@@ -35,7 +35,13 @@ local function LoadOptions()
 end
 
 function MAUI:Initialize()
-	if not E.db.MaUI.install then MAUI:RunInstaller() end
+	mMT:DebugPrintTable(E.private.MaUI)
+	if not E.private.MaUI.install then
+		if not E.private.install_complete then
+			E.private.install_complete = E.version
+			E.private.MaUI.elvuiskiped = true
+		end
+		MAUI:RunInstaller() end
 
 	MAUI:GetColors()
 end

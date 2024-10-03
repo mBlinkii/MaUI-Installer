@@ -40,23 +40,18 @@ local function ResetInstallerSkin()
 end
 
 function MAUI:SetupComplete(skip)
-	E.db["MaUI"].install = true
-	E.db["MaUI"].version = skip and "SKIPED" or MAUI.Version
+	E.private.MaUI.install = true
+	E.private.MaUI.version = skip and "SKIPED" or MAUI.Version
+	E.private.install_complete = E.version
+	E.private.MaUI.elvuiskiped = false
 
 	ResetInstallerSkin()
 	ReloadUI()
 end
 
 function MAUI:SetupSkip()
-	E.private.install_complete = elvuiInstallCompleted or nil
+	E.private.install_complete = E.private.MaUI.elvuiskiped and nil
 	MAUI:SetupComplete(true)
-end
-
-local function FirstStep()
-	E:SetupCVars()
-	E:SetupChat()
-
-	if E.Retail then ChatFrame_RemoveChannel(_G.ChatFrame1, "services") end
 end
 
 local function FadeInOrOut(fadeIn)
@@ -207,9 +202,6 @@ local function SetUpPage(page)
 end
 
 function MAUI:RunInstaller()
-	-- check elvui installation
-	if E.private.install_complete then elvuiInstallCompleted = E.private.install_complete end
-
 	-- build the installer table
 	if not MAUI.InstallerData.build then
 		for i = 1, #MAUI.InstallerData do
@@ -223,4 +215,5 @@ function MAUI:RunInstaller()
 
 	-- queue our installer
 	PI:Queue(installerData)
+	MAUI:Print(234567183718478147184179414942930944)
 end
