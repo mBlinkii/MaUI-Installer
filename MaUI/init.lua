@@ -16,13 +16,14 @@ MAUI.Icon = "|TInterface\\Addons\\MaUI\\media\\maui_icon.tga:14:14|t"
 MAUI.Logo = "Interface\\Addons\\MaUI\\media\\maui_logo.tga"
 MAUI.InstallerData = {}
 MAUI.Options = {}
+MAUI.Colors = {}
 
 MAUI.CREDITS = {
 	"|CFF00A3FFB|r|CFF00B4FFl|r|CFF00C6FFi|r|CFF00D8FFn|r|CFF00EAFFk|r|CFF00F6FFi|r|CFF00F6FFi|r - Programming & Author",
 	"TukUI & ElvUI Community",
 }
 
-MAUI.Colors = {}
+
 
 local function LoadOptions()
 	for _, func in pairs(MAUI.Options) do
