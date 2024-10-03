@@ -23,7 +23,10 @@ MAUI.CREDITS = {
 	"TukUI & ElvUI Community",
 }
 
-
+MAUI.Media = {
+	background = "Interface\\Addons\\MaUI\\media\\bg.tga",
+	statusbar = "Interface\\Addons\\MaUI\\media\\blank.tga",
+}
 
 local function LoadOptions()
 	for _, func in pairs(MAUI.Options) do

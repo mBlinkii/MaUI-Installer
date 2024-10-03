@@ -88,7 +88,7 @@ local function OnEnter(button)
 	end
 
 	if button.backdrop then button = button.backdrop end
-	if button.SetBackdropBorderColor then button:SetBackdropBorderColor(unpack(conf.color.classColor)) end
+	if button.SetBackdropBorderColor then button:SetBackdropBorderColor(unpack(MAUI.Colors.class.rgb)) end
 end
 
 local function OnLeave(button)
@@ -145,7 +145,6 @@ end
 
 local function SetupPluginInstaller()
 	local c = E:ClassColor(E.myclass)
-	conf.color.classColor = { c.r, c.g, c.b, 1 }
 
 	if not _G.PluginInstallFrame.mauiBG then _G.PluginInstallFrame.mauiBG = _G.PluginInstallFrame:CreateTexture() end
 	if not _G.PluginInstallFrame.side.mauiBG then _G.PluginInstallFrame.side.mauiBG = _G.PluginInstallFrame.side:CreateTexture() end
@@ -155,10 +154,10 @@ local function SetupPluginInstaller()
 		_G.PluginInstallFrame.mauiPreview:SetAllPoints(_G.PluginInstallFrame)
 	end
 
-	SetBGTexture(_G.PluginInstallFrame.mauiBG, _G.PluginInstallFrame, conf.background, { { r = 0, g = 0, b = 0, a = 0.2 }, { r = 0.44, g = 0.34, b = 0.34, a = 0.2 } })
-	SetBGTexture(_G.PluginInstallFrame.side.mauiBG, _G.PluginInstallFrame.side, conf.background, { { r = 0, g = 0, b = 0, a = 0.2 }, { r = 0.44, g = 0.34, b = 0.34, a = 0.2 } })
+	SetBGTexture(_G.PluginInstallFrame.mauiBG, _G.PluginInstallFrame, MAUI.Media.background, { { r = 0, g = 0, b = 0, a = 0.2 }, { r = 0.44, g = 0.34, b = 0.34, a = 0.2 } })
+	SetBGTexture(_G.PluginInstallFrame.side.mauiBG, _G.PluginInstallFrame.side, MAUI.Media.background, { { r = 0, g = 0, b = 0, a = 0.2 }, { r = 0.44, g = 0.34, b = 0.34, a = 0.2 } })
 
-	_G.PluginInstallFrame.Status:SetStatusBarTexture(conf.statusbar)
+	_G.PluginInstallFrame.Status:SetStatusBarTexture(MAUI.Media.statusbar)
 end
 
 local function Resize()

@@ -25,35 +25,8 @@ MAUI.InstallerData[1] = { --#F8D058, #39F64C
 }
 
 MAUI.InstallerData[2] = {
-	SubTitle = MAUI.Name .. " Layout Version",
-	StepTitle = "Layout Version",
-	tutorialImage = true,
-	descriptions = {
-		[1] = format("This is where you can choose between the different versions of the %s layout.", MAUI.Name),
-		[2] = format("%s |CFFF8D058v6.5|r offers a full ElvUI profile with optimized features for different roles and a custom dock bar", MAUI.Name),
-		[3] = format("%s |CFFF8D058v7|r continues to improve the user interface, offering enhanced features and a cleaner layout.", MAUI.Name),
-	},
-	options = {
-		[1] = {
-			text = MAUI.Name .. " |CFFF8D058v6.5|r",
-			preview = mediaPath .. "pic1.png",
-			func = function()
-				PI:SetPage(3, 2)
-			end,
-		},
-		[2] = {
-			text = MAUI.Name .. " |CFFF8D058v7|r",
-			preview = mediaPath .. "pic2.png",
-			func = function()
-				PI:SetPage(4, 2)
-			end,
-		},
-	},
-}
-
-MAUI.InstallerData[3] = {
-	SubTitle = MAUI.Name .. " |CFFF8D058v6.5|r",
-	StepTitle = "Layout v6.5",
+	SubTitle = MAUI.Name .. " |CFFF8D058v7|r",
+	StepTitle = "Layout v7",
 	tutorialImage = true,
 	descriptions = {
 		[1] = "The tank/DD layout offers health and resource displays as well as an aggro display.",
@@ -84,33 +57,7 @@ MAUI.InstallerData[3] = {
 	},
 }
 
-MAUI.InstallerData[4] = {
-	SubTitle = MAUI.Name .. " |CFFF8D058v7|r",
-	StepTitle = "Layout v7",
-	tutorialImage = true,
-	descriptions = {
-		[1] = "The tank/DD layout offers health and resource displays as well as an aggro display.",
-		[2] = "The healer layout, on the other hand, offers clear group and raid frames as well as a clear.",
-	},
-	options = {
-		[1] = {
-			text = "Tank/ DD",
-			preview = mediaPath .. "pic1.png",
-			func = function()
-				print("HAHAHAHA")
-			end,
-		},
-		[2] = {
-			text = "Heal",
-			preview = mediaPath .. "pic2.png",
-			func = function()
-				print("HAHAHAHA")
-			end,
-		},
-	},
-}
-
-MAUI.InstallerData[5] = {
+MAUI.InstallerData[3] = {
 	SubTitle = "Addons",
 	tutorialImage = true,
 	descriptions = {
@@ -148,7 +95,7 @@ MAUI.InstallerData[5] = {
 	},
 }
 
-MAUI.InstallerData[6] = {
+MAUI.InstallerData[4] = {
 	SubTitle = "Mythic Plus Stuff",
 	tutorialImage = true,
 	descriptions = {
@@ -181,7 +128,7 @@ MAUI.InstallerData[6] = {
 	},
 }
 
-MAUI.InstallerData[7] = {
+MAUI.InstallerData[5] = {
 	SubTitle = "Blizzard",
 	tutorialImage = true,
 	descriptions = {
@@ -199,7 +146,7 @@ MAUI.InstallerData[7] = {
 }
 
 local discordLogo = format("|T%s%s:14:14|t", mediaPath, "discord_b")
-MAUI.InstallerData[8] = {
+MAUI.InstallerData[6] = {
 	SubTitle = "Installation Complete",
 	tutorialImage = true,
 	descriptions = { -- #39F64C
